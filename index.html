@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>متابعة مشاريع التخرج</title>
+<style>
+:root{--bg:#f4f6fa;--card:#fff;--tx:#1d2733;--mut:#5b6b7e;--pri:#1f4e78;--on:#fff;--bd:#d8dee8;--ok:#1a7f4b;--warn:#b26a00;--bad:#b3261e;--info:#2563a8;--soft:#eaf1f8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161c;--card:#1b222b;--tx:#e8edf3;--mut:#9aa8b8;--pri:#6fa8dc;--on:#10161d;--bd:#2c3744;--ok:#4cc38a;--warn:#e0a040;--bad:#ff8a80;--info:#7fb2ee;--soft:#222c38;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12161c;--card:#1b222b;--tx:#e8edf3;--mut:#9aa8b8;--pri:#6fa8dc;--on:#10161d;--bd:#2c3744;--ok:#4cc38a;--warn:#e0a040;--bad:#ff8a80;--info:#7fb2ee;--soft:#222c38;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Cairo","Segoe UI",Tahoma,Arial,sans-serif;line-height:1.7}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header{text-align:center;padding:18px 8px 6px}
+h1{margin:0;font-size:1.5rem;color:var(--pri)}
+.sub{color:var(--mut);font-size:.95rem}
+nav{display:flex;gap:8px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+nav button,.btn{font:inherit;border:1px solid var(--pri);background:var(--card);color:var(--pri);padding:8px 18px;border-radius:10px;cursor:pointer}
+nav button.on,.btn.pri{background:var(--pri);color:var(--on)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-size:1.7rem;color:var(--pri)}
+.stat span{color:var(--mut);font-size:.85rem}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input,select,textarea{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--bd);border-radius:9px;background:var(--bg);color:var(--tx)}
+textarea{min-height:80px;resize:vertical}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tag{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700;border:1px solid currentColor}
+.ok{color:var(--ok)}.warn{color:var(--warn)}.bad{color:var(--bad)}.info{color:var(--info)}
+.proj h3{margin:0 0 4px;font-size:1.05rem}
+.meta{color:var(--mut);font-size:.88rem}
+.bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:var(--pri)}
+.admin{border-top:1px dashed var(--bd);margin-top:10px;padding-top:8px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.filters>*{flex:1;min-width:150px}
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{border:1px solid var(--bd);padding:7px 9px;text-align:center}
+th{background:var(--soft);color:var(--pri)}
+td.l{text-align:right}
+.msg{padding:10px 12px;border-radius:10px;background:var(--soft);color:var(--tx);margin-bottom:12px}
+.hide{display:none}
+.rb{display:grid;grid-template-columns:130px 1fr 36px;gap:8px;align-items:center;margin:6px 0;font-size:.9rem}
+@media print{nav,.noprint,.admin{display:none!important}body{background:#fff;color:#000}.card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div style="font-weight:700;font-size:1.15rem;color:var(--tx)">جامعة ساكسوني مصر للعلوم التطبيقية والتكنولوجيا</div>
+<div class="sub" dir="ltr" style="margin-bottom:10px">Faculty of Electrical, Electronic &amp; Computer Technology</div>
+<h1>متابعة مشاريع التخرج</h1>
+<div class="sub" dir="ltr" style="font-weight:700">Computing Security Technology Program</div>
+<div class="sub">العام الجامعي 2026–2027</div>
+</header>
+<nav>
+<button data-t="reg" class="on">تسجيل مشروع</button>
+<button data-t="list">المشاريع</button>
+<button data-t="rep">التقرير</button>
+</nav>
+<p class="noprint" style="text-align:center;margin:0 0 10px"><button class="btn" id="adm">دخول المشرف</button></p>
+<div id="msg" class="msg hide"></div>
+
+<section id="reg">
+<div class="card">
+<h2 style="margin-top:0">نموذج تسجيل مشروع تخرج</h2>
+<div class="row">
+<div><label>عنوان المشروع *</label><input id="f_title"></div>
+<div><label>المشرف *</label><input id="f_sup" list="sups" placeholder="د. / م."><datalist id="sups"></datalist></div>
+<div><label>اسم قائد الفريق *</label><input id="f_leader"></div>
+<div><label>الرقم الجامعي / الكود *</label><input id="f_sid"></div>
+<div><label>المسار / القسم</label>
+<select id="f_track"><option>Computing Security Technology</option><option>أخرى</option></select></div>
+<div><label>تصنيف المشروع</label>
+<select id="f_type"><option>تطبيق ويب</option><option>تطبيق موبايل</option><option>ذكاء اصطناعي / تعلم آلة</option><option>نظام معلومات</option><option>أمن معلومات</option><option>أخرى</option></select></div>
+</div>
+<label>باقي أعضاء الفريق (كل اسم في سطر)</label><textarea id="f_members"></textarea>
+<label>وصف مختصر للمشروع</label><textarea id="f_desc"></textarea>
+<p><button class="btn pri" id="submit">إرسال التسجيل</button></p>
+</div>
+</section>
+
+<section id="list" class="hide">
+<div class="filters">
+<input id="q" placeholder="بحث بالعنوان أو الطالب أو المشرف...">
+<select id="fs"></select>
+</div>
+<div id="items"></div>
+</section>
+
+<section id="rep" class="hide">
+<div id="report"></div>
+<p class="noprint"><button class="btn pri" id="print">طباعة / حفظ PDF</button> <button class="btn" id="csv">تنزيل CSV</button></p>
+</section>
+</div>
+
+<script>
+const ST={new:["قيد المراجعة","info"],approved:["معتمد","ok"],revise:["يحتاج تعديلات","warn"],progress:["قيد التنفيذ","info"],done:["مكتمل","ok"],rejected:["مرفوض","bad"]};
+let PASS="",projects=[],canEdit=false,loaded=false;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function note(t){const m=$("msg");m.textContent=t;m.classList.remove("hide");}
+
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+ document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("on",x===b));
+ ["reg","list","rep"].forEach(s=>$(s).classList.toggle("hide",s!==b.dataset.t));
+});
+$("fs").innerHTML='<option value="">كل الحالات</option>'+Object.entries(ST).map(([k,v])=>`<option value="${k}">${v[0]}</option>`).join("");
+$("q").oninput=$("fs").onchange=renderList;
+
+$("submit").onclick=async()=>{
+ const g=id=>$(id).value.trim();
+ const d={title:g("f_title"),supervisor:g("f_sup"),leader:g("f_leader"),sid:g("f_sid"),track:g("f_track"),type:g("f_type"),members:g("f_members"),desc:g("f_desc"),status:"new",progress:0,notes:"",createdAt:Date.now()};
+ if(!d.title||!d.supervisor||!d.leader||!d.sid){note("من فضلك أكمل الحقول المطلوبة (*).");return;}
+ if(API_URL.startsWith("PASTE")){note("لم يتم ربط الصفحة بقاعدة البيانات بعد.");return;}
+ try{
+  await api({action:"add",data:d});await load();
+  ["f_title","f_sup","f_leader","f_sid","f_members","f_desc"].forEach(i=>$(i).value="");
+  note("تم تسجيل المشروع بنجاح، وهو الآن قيد المراجعة.");
+ }catch(e){note("تعذر الحفظ، حاول مرة أخرى.");}
+};
+
+function renderList(){
+ const q=$("q").value.trim(),fs=$("fs").value;
+ const arr=projects.filter(p=>(!fs||p.status===fs)&&(!q||[p.title,p.leader,p.sid,p.supervisor,p.members].join(" ").includes(q)));
+ if(!loaded){$("items").innerHTML='<div class="card">جاري تحميل البيانات...</div>';return;}
+ if(!arr.length){$("items").innerHTML='<div class="card">لا توجد مشاريع مطابقة.</div>';return;}
+ $("items").innerHTML=arr.map(p=>{
+  const s=ST[p.status]||ST.new;
+  const adm=canEdit?`<div class="admin" data-id="${esc(p.id)}"><div class="row">
+   <div><label>الحالة</label><select class="a_st">${Object.entries(ST).map(([k,v])=>`<option value="${k}"${k===p.status?" selected":""}>${v[0]}</option>`).join("")}</select></div>
+   <div><label>نسبة الإنجاز %</label><input class="a_pr" type="number" min="0" max="100" value="${+p.progress||0}"></div></div>
+   <label>ملاحظات المشرف</label><textarea class="a_nt">${esc(p.notes)}</textarea>
+   <p><button class="btn pri a_save">حفظ التحديث</button> <button class="btn a_del">حذف</button></p></div>`:"";
+  return `<div class="card proj"><h3>${esc(p.title)} <span class="tag ${s[1]}">${s[0]}</span></h3>
+  <div class="meta">المشرف: ${esc(p.supervisor)} · القائد: ${esc(p.leader)} (${esc(p.sid)}) · ${esc(p.track)} · ${esc(p.type)}</div>
+  ${p.members?`<div class="meta">الفريق: ${esc(p.members).replace(/\n/g," ، ")}</div>`:""}
+  ${p.desc?`<p>${esc(p.desc)}</p>`:""}
+  <div class="bar"><i style="width:${+p.progress||0}%"></i></div><div class="meta">الإنجاز: ${+p.progress||0}%</div>
+  ${p.notes?`<div class="msg" style="margin-top:8px">ملاحظات المشرف: ${esc(p.notes)}</div>`:""}${adm}</div>`;
+ }).join("");
+ document.querySelectorAll(".admin").forEach(a=>{
+  const id=a.dataset.id;
+  a.querySelector(".a_save").onclick=async()=>{
+   const pr=Math.max(0,Math.min(100,+a.querySelector(".a_pr").value||0));
+   try{await api({action:"update",id:id,pass:PASS,data:{status:a.querySelector(".a_st").value,progress:pr,notes:a.querySelector(".a_nt").value}});await load();note("تم حفظ التحديث.");}catch(e){note("تعذر الحفظ.");}
+  };
+  a.querySelector(".a_del").onclick=async()=>{if(confirm("حذف هذا المشروع نهائيًا؟")){try{await api({action:"delete",id:id,pass:PASS});await load();}catch(e){note("تعذر الحذف.");}}};
+ });
+}
+
+function stats(){
+ const n=projects.length,c={};Object.keys(ST).forEach(k=>c[k]=0);
+ projects.forEach(p=>c[p.status in c?p.status:"new"]++);
+ const avg=n?Math.round(projects.reduce((a,p)=>a+(+p.progress||0),0)/n):0;
+ const sup={};projects.forEach(p=>{const k=p.supervisor||"-";(sup[k]=sup[k]||{n:0,pr:0,ok:0,dn:0});sup[k].n++;sup[k].pr+=+p.progress||0;if(p.status==="approved"||p.status==="progress")sup[k].ok++;if(p.status==="done")sup[k].dn++;});
+ return {n,c,avg,sup};
+}
+function renderReport(){
+ const {n,c,avg,sup}=stats();
+ const bars=Object.entries(ST).map(([k,v])=>`<div class="rb"><span>${v[0]}</span><div class="bar"><i style="width:${n?c[k]/n*100:0}%"></i></div><b>${c[k]}</b></div>`).join("");
+ const rows=Object.entries(sup).sort((a,b)=>b[1].n-a[1].n).map(([k,v])=>`<tr><td class="l">${esc(k)}</td><td>${v.n}</td><td>${v.ok}</td><td>${v.dn}</td><td>${Math.round(v.pr/v.n)}%</td></tr>`).join("");
+ $("report").innerHTML=`<div class="stats">
+  <div class="stat"><b>${n}</b><span>إجمالي المشاريع</span></div>
+  <div class="stat"><b>${c.approved+c.progress}</b><span>معتمدة / قيد التنفيذ</span></div>
+  <div class="stat"><b>${c.revise}</b><span>تحتاج تعديلات</span></div>
+  <div class="stat"><b>${c.done}</b><span>مكتملة</span></div>
+  <div class="stat"><b>${avg}%</b><span>متوسط الإنجاز</span></div></div>
+  <div class="card"><h3 style="margin-top:0">توزيع المشاريع حسب الحالة</h3>${bars}</div>
+  <div class="card"><h3 style="margin-top:0">تقرير المشرفين</h3><div class="tblwrap"><table>
+  <tr><th>المشرف</th><th>عدد المشاريع</th><th>معتمد / جاري</th><th>مكتمل</th><th>متوسط الإنجاز</th></tr>${rows||'<tr><td colspan="5">لا توجد بيانات</td></tr>'}</table></div></div>
+  <div class="meta">تاريخ التقرير: ${new Date().toLocaleDateString("ar-EG")}</div>`;
+}
+$("print").onclick=()=>window.print();
+$("csv").onclick=async()=>{
+ const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
+ const head=["العنوان","المشرف","القائد","الكود","المسار","التصنيف","الفريق","الحالة","الإنجاز %","ملاحظات"];
+ const lines=[head.map(q).join(",")].concat(projects.map(p=>[p.title,p.supervisor,p.leader,p.sid,p.track,p.type,(p.members||"").replace(/\n/g," | "),(ST[p.status]||ST.new)[0],p.progress||0,p.notes].map(q).join(",")));
+ try{const u=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="graduation-projects.csv";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);}catch(e){note("لم يتم حفظ الملف.");}
+};
+
+function renderAll(){
+ $("sups").innerHTML=[...new Set(projects.map(p=>p.supervisor).filter(Boolean))].map(s=>`<option value="${esc(s)}">`).join("");
+ renderList();renderReport();
+}
+renderAll();
+
+const API_URL="PASTE_APPS_SCRIPT_URL_HERE";
+async function api(body){const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)});const j=await r.json();if(!j.ok)throw new Error(j.error||"error");return j;}
+async function load(){try{const r=await fetch(API_URL+"?t="+Date.now());const j=await r.json();projects=(j.projects||[]).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));loaded=true;renderAll();}catch(e){loaded=true;note("تعذر تحميل البيانات.");renderAll();}}
+$("adm").onclick=async()=>{
+ if(canEdit){canEdit=false;PASS="";$("adm").textContent="دخول المشرف";renderList();return;}
+ const p=prompt("كلمة مرور المشرف:");if(!p)return;
+ try{await api({action:"check",pass:p});PASS=p;canEdit=true;$("adm").textContent="خروج المشرف";renderList();}catch(e){note("كلمة المرور غير صحيحة.");}
+};
+if(API_URL.startsWith("PASTE")){loaded=true;note("الصفحة تحتاج ربط بقاعدة البيانات (Google Apps Script).");renderAll();}else{load();setInterval(load,60000);}
+</script>
+</body>
+</html>
