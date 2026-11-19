@@ -115,7 +115,7 @@ $("submit").onclick=async()=>{
  const g=id=>$(id).value.trim();
  const d={title:g("f_title"),supervisor:g("f_sup"),leader:g("f_leader"),sid:g("f_sid"),track:g("f_track"),type:g("f_type"),members:g("f_members"),desc:g("f_desc"),status:"new",progress:0,notes:"",createdAt:Date.now()};
  if(!d.title||!d.supervisor||!d.leader||!d.sid){note("من فضلك أكمل الحقول المطلوبة (*).");return;}
- if(!d.title||!d.supervisor||!d.leader||!d.sid){note("من فضلك أكمل الحقول المطلوبة (*).");return;}
+ if(API_URL.startsWith("PASTE")){note("لم يتم ربط الصفحة بقاعدة البيانات بعد.");return;}
  try{
   await api({action:"add",data:d});await load();
   ["f_title","f_sup","f_leader","f_sid","f_members","f_desc"].forEach(i=>$(i).value="");
@@ -188,7 +188,7 @@ function renderAll(){
 }
 renderAll();
 
-const API_URL="AKfycbycKoVfikcOC2ITK9iwINYgpf2o-HPmrrpMOjnfzK3kr6g9HC97KzEeHAOYnhWcB-F8";
+const API_URL="https://script.google.com/macros/s/AKfycbycKoVfikcOC2ITK9iwINYgpf2o-HPmrrpMOjnfzK3kr6g9HC97KzEeHAOYnhWcB-F8/exec";
 async function api(body){const r=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)});const j=await r.json();if(!j.ok)throw new Error(j.error||"error");return j;}
 async function load(){try{const r=await fetch(API_URL+"?t="+Date.now());const j=await r.json();projects=(j.projects||[]).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));loaded=true;renderAll();}catch(e){loaded=true;note("تعذر تحميل البيانات.");renderAll();}}
 $("adm").onclick=async()=>{
