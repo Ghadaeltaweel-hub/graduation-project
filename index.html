@@ -115,7 +115,7 @@ $("submit").onclick=async()=>{
  const g=id=>$(id).value.trim();
  const d={title:g("f_title"),supervisor:g("f_sup"),leader:g("f_leader"),sid:g("f_sid"),track:g("f_track"),type:g("f_type"),members:g("f_members"),desc:g("f_desc"),status:"new",progress:0,notes:"",createdAt:Date.now()};
  if(!d.title||!d.supervisor||!d.leader||!d.sid){note("من فضلك أكمل الحقول المطلوبة (*).");return;}
- if(API_URL.startsWith("PASTE")){note("لم يتم ربط الصفحة بقاعدة البيانات بعد.");return;}
+ if(!d.title||!d.supervisor||!d.leader||!d.sid){note("من فضلك أكمل الحقول المطلوبة (*).");return;}
  try{
   await api({action:"add",data:d});await load();
   ["f_title","f_sup","f_leader","f_sid","f_members","f_desc"].forEach(i=>$(i).value="");
