@@ -120,7 +120,7 @@ $("submit").onclick=async()=>{
   await api({action:"add",data:d});await load();
   ["f_title","f_sup","f_leader","f_sid","f_members","f_desc"].forEach(i=>$(i).value="");
   note("تم تسجيل المشروع بنجاح، وهو الآن قيد المراجعة.");
- }catch(e){note("تعذر الحفظ، حاول مرة أخرى.");}
+ }catch(e){note("تعذر الحفظ [v6]: "+(e&&e.message?e.message:e));}
 };
 
 function renderList(){
